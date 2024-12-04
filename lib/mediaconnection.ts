@@ -183,5 +183,59 @@ export class MediaConnection extends BaseConnection<MediaConnectionEvents> {
 		this._open = false;
 
 		super.emit("close");
-	}
+  }
+
+  /**
+   * replace Video Track to PeerConnection
+   */
+  replaceVideoTrackToPeerConnection(mediaStream: MediaStream): void {
+    const senders = this._negotiator.connection.peerConnection.getSenders()
+    console.log('peerjs: senders.length:', senders.length)
+    senders.forEach((sender) => {
+      console.log('peerjs: sender.track.kind', sender.track?.kind)
+      if (sender.track?.kind === 'video') {
+        const newVideoTrack = mediaStream.getVideoTracks()[0]
+        sender.replaceTrack(newVideoTrack)
+      }
+    })
+  }
+
+  /**
+   * replace Audio Track to PeerConnection
+   */
+  replaceAudioTrackToPeerConnection(mediaStream: MediaStream): void {
+    const senders = this._negotiator.connection.peerConnection.getSenders()
+    console.log('peerjs: senders.length:', senders.length)
+    senders.forEach((sender) => {
+      console.log('peerjs: sender.track.kind', sender.track?.kind)
+      if (sender.track?.kind === 'audio') {
+        const newVideoTrack = mediaStream.getVideoTracks()[0]
+        sender.replaceTrack(newVideoTrack)
+      }
+    })
+  }
+
+  /**
+   * changeVideoTrackEnabled
+   */
+  changeVideoTrackEnabled(value: boolean): void {
+    const senders = this._negotiator.connection.peerConnection.getSenders()
+    senders.forEach((sender) => {
+      if (sender.track?.kind === 'video') {
+        sender.track.enabled = value
+      }
+    })
+  }
+
+  /**
+   * changeAudioTrackEnabled
+   */
+  changeAudioTrackEnabled(value: boolean): void {
+    const senders = this._negotiator.connection.peerConnection.getSenders()
+    senders.forEach((sender) => {
+      if (sender.track?.kind === 'audio') {
+        sender.track.enabled = value
+      }
+    })
+  }
 }

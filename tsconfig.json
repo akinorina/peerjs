@@ -11,7 +11,13 @@
 		"lib": ["es2020", "dom"],
 		"paths": {
 			"cbor-x/index-no-eval": ["./node_modules/cbor-x"]
-		}
+		},
+		"declaration": true,
+		"sourceMap": true,
+		"outDir": "./dist",
+		"rootDir": "./lib",
+		"strict": true,
+		"forceConsistentCasingInFileNames":true
 	},
 	"exclude": ["node_modules", "dist", "e2e"]
 }
